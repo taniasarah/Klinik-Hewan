@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DatabaseSIDHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="daftar">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="nama" Type="varchar" MaxLength="25" />
+    <Property Name="username" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="dokter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="nama_dokter" Type="varchar" MaxLength="25" />
+    <Property Name="id_pdhi" Type="varchar" MaxLength="20" />
+    <Property Name="spesialis" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="pelayanan">
+    <Key>
+      <PropertyRef Name="nama_pelayanan" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="jenis_pelayanan" Type="varchar" MaxLength="25" />
+    <Property Name="nama_pelayanan" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="id_dokter" Type="int" />
+  </EntityType>
+  <EntityType Name="transaksi">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="25" />
+    <Property Name="jenis_hewan" Type="varchar" MaxLength="50" />
+    <Property Name="umur" Type="varchar" MaxLength="10" />
+    <Property Name="pelayanan" Type="varchar" MaxLength="25" />
+    <Property Name="tanggal" Type="date" />
+  </EntityType>
+  <Association Name="FK_pelayanan_ToDokter">
+    <End Role="dokter" Type="Self.dokter" Multiplicity="0..1" />
+    <End Role="pelayanan" Type="Self.pelayanan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dokter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="pelayanan">
+        <PropertyRef Name="id_dokter" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transaksi_ToDaftar">
+    <End Role="daftar" Type="Self.daftar" Multiplicity="0..1" />
+    <End Role="transaksi" Type="Self.transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="daftar">
+        <PropertyRef Name="username" />
+      </Principal>
+      <Dependent Role="transaksi">
+        <PropertyRef Name="username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transaksi_ToPelayanan">
+    <End Role="pelayanan" Type="Self.pelayanan" Multiplicity="0..1" />
+    <End Role="transaksi" Type="Self.transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pelayanan">
+        <PropertyRef Name="nama_pelayanan" />
+      </Principal>
+      <Dependent Role="transaksi">
+        <PropertyRef Name="pelayanan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DatabaseSIDHModelStoreContainer">
+    <EntitySet Name="daftar" EntityType="Self.daftar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dokter" EntityType="Self.dokter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="pelayanan" EntityType="Self.pelayanan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transaksi" EntityType="Self.transaksi" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_pelayanan_ToDokter" Association="Self.FK_pelayanan_ToDokter">
+      <End Role="dokter" EntitySet="dokter" />
+      <End Role="pelayanan" EntitySet="pelayanan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transaksi_ToDaftar" Association="Self.FK_transaksi_ToDaftar">
+      <End Role="daftar" EntitySet="daftar" />
+      <End Role="transaksi" EntitySet="transaksi" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transaksi_ToPelayanan" Association="Self.FK_transaksi_ToPelayanan">
+      <End Role="pelayanan" EntitySet="pelayanan" />
+      <End Role="transaksi" EntitySet="transaksi" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

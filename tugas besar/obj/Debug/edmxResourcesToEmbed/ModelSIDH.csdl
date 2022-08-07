@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DatabaseSIDHModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="daftar">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="nama" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="transaksis" Relationship="Self.FK_transaksi_ToDaftar" FromRole="daftar" ToRole="transaksi" />
+  </EntityType>
+  <EntityType Name="dokter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="nama_dokter" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="id_pdhi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="spesialis" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="pelayanans" Relationship="Self.FK_pelayanan_ToDokter" FromRole="dokter" ToRole="pelayanan" />
+  </EntityType>
+  <EntityType Name="pelayanan">
+    <Key>
+      <PropertyRef Name="nama_pelayanan" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="jenis_pelayanan" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="nama_pelayanan" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_dokter" Type="Int32" />
+    <NavigationProperty Name="dokter" Relationship="Self.FK_pelayanan_ToDokter" FromRole="pelayanan" ToRole="dokter" />
+    <NavigationProperty Name="transaksis" Relationship="Self.FK_transaksi_ToPelayanan" FromRole="pelayanan" ToRole="transaksi" />
+  </EntityType>
+  <EntityType Name="transaksi">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="jenis_hewan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="umur" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="pelayanan" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="tanggal" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="daftar" Relationship="Self.FK_transaksi_ToDaftar" FromRole="transaksi" ToRole="daftar" />
+    <NavigationProperty Name="pelayanan1" Relationship="Self.FK_transaksi_ToPelayanan" FromRole="transaksi" ToRole="pelayanan" />
+  </EntityType>
+  <Association Name="FK_transaksi_ToDaftar">
+    <End Role="daftar" Type="Self.daftar" Multiplicity="0..1" />
+    <End Role="transaksi" Type="Self.transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="daftar">
+        <PropertyRef Name="username" />
+      </Principal>
+      <Dependent Role="transaksi">
+        <PropertyRef Name="username" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_pelayanan_ToDokter">
+    <End Role="dokter" Type="Self.dokter" Multiplicity="0..1" />
+    <End Role="pelayanan" Type="Self.pelayanan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dokter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="pelayanan">
+        <PropertyRef Name="id_dokter" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transaksi_ToPelayanan">
+    <End Role="pelayanan" Type="Self.pelayanan" Multiplicity="0..1" />
+    <End Role="transaksi" Type="Self.transaksi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pelayanan">
+        <PropertyRef Name="nama_pelayanan" />
+      </Principal>
+      <Dependent Role="transaksi">
+        <PropertyRef Name="pelayanan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DatabaseSIDHEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="daftars" EntityType="Self.daftar" />
+    <EntitySet Name="dokters" EntityType="Self.dokter" />
+    <EntitySet Name="pelayanans" EntityType="Self.pelayanan" />
+    <EntitySet Name="transaksis" EntityType="Self.transaksi" />
+    <AssociationSet Name="FK_transaksi_ToDaftar" Association="Self.FK_transaksi_ToDaftar">
+      <End Role="daftar" EntitySet="daftars" />
+      <End Role="transaksi" EntitySet="transaksis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_pelayanan_ToDokter" Association="Self.FK_pelayanan_ToDokter">
+      <End Role="dokter" EntitySet="dokters" />
+      <End Role="pelayanan" EntitySet="pelayanans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transaksi_ToPelayanan" Association="Self.FK_transaksi_ToPelayanan">
+      <End Role="pelayanan" EntitySet="pelayanans" />
+      <End Role="transaksi" EntitySet="transaksis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

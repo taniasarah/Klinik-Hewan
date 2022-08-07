@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseSIDokterHewanModelStoreContainer" CdmEntityContainer="DatabaseSIDokterHewanEntities1">
+    <EntitySetMapping Name="daftars">
+      <EntityTypeMapping TypeName="DatabaseSIDokterHewanModel.daftar">
+        <MappingFragment StoreEntitySet="daftar">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nama" ColumnName="nama" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dokters">
+      <EntityTypeMapping TypeName="DatabaseSIDokterHewanModel.dokter">
+        <MappingFragment StoreEntitySet="dokter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="nama_dokter" ColumnName="nama_dokter" />
+          <ScalarProperty Name="id_pdhi" ColumnName="id_pdhi" />
+          <ScalarProperty Name="spesialis" ColumnName="spesialis" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pelayanans">
+      <EntityTypeMapping TypeName="DatabaseSIDokterHewanModel.pelayanan">
+        <MappingFragment StoreEntitySet="pelayanan">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="jenis_pelayanan" ColumnName="jenis_pelayanan" />
+          <ScalarProperty Name="nama_pelayanan" ColumnName="nama_pelayanan" />
+          <ScalarProperty Name="id_dokter" ColumnName="id_dokter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="transaksis">
+      <EntityTypeMapping TypeName="DatabaseSIDokterHewanModel.transaksi">
+        <MappingFragment StoreEntitySet="transaksi">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id_user" ColumnName="id_user" />
+          <ScalarProperty Name="jenis_hewan" ColumnName="jenis_hewan" />
+          <ScalarProperty Name="umur" ColumnName="umur" />
+          <ScalarProperty Name="id_pelayanan" ColumnName="id_pelayanan" />
+          <ScalarProperty Name="tanggal" ColumnName="tanggal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
